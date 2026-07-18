@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RiderApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fa-regular fa-circle-check"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <div class="container" id="app">
+
+        <!-- ===== LANDING ===== -->
+        <div id="landingPage">
+
+           
+
+            <!-- Login Form -->
+            <div class="form-wrapper active" id="loginForm">
+                <div class="leftSide">
+                    <h2></h2>
+                </div>
+                <div class="login-form">
+                    <h2 class="form-title">Welcome Back</h2>
+                    <p class="form-subtitle">Login to your RideHub account</p>
+
+                    <div class="form-group">
+                        <label>Username</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user"></i>
+                            <input type="text" id="loginUsername" placeholder="Enter your username" />
+                        </div>
+                        <div class="error-msg" id="loginUsernameError">Please enter your username</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" />
+                        </div>
+                        <div class="error-msg" id="loginPasswordError">Please enter your password</div>
+                    </div>
+
+                    <div class="btn">
+                        <button class="submit-btn" onclick="handleLogin()">
+                            Login <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="error-msg" id="loginError" style="text-align:center;margin-top:8px;display:none;color:#ef4444;">
+                        Invalid username or password.
+                    </div>
+
+                    <div class="links">
+                        <p>Don't have an Account? <button class="tab-btn" data-tab="signup">Sign Up</button></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="form-wrapper" id="signupForm">
+                <div class="leftSide">
+                    <h2></h2>
+                </div>
+                <div class="signup-form">
+                    <h2 class="form-title">Create Account</h2>
+                    <p class="form-subtitle">Join as a Rider or Passenger</p>
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-id-card"></i>
+                            <input type="text" id="signupFullname" placeholder="Enter your full name" />
+                        </div>
+                        <div class="error-msg" id="signupFullnameError">Please enter your full name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Username</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user"></i>
+                            <input type="text" id="signupUsername" placeholder="Choose a username" />
+                        </div>
+                        <div class="error-msg" id="signupUsernameError">Username must be at least 3 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input type="email" id="signupEmail" placeholder="Enter your email" />
+                        </div>
+                        <div class="error-msg" id="signupEmailError">Please enter a valid email</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="tel" id="signupPhone" placeholder="Enter your phone number" />
+                        </div>
+                        <div class="error-msg" id="signupPhoneError">Please enter a valid phone number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>I am a...</label>
+                        <div class="role-selector" id="roleSelector">
+                            <div class="role-option" data-role="rider" onclick="selectRole('rider')">
+                                <i class="fa-solid fa-motorcycle"></i> Rider
+                            </div>
+                            <div class="role-option" data-role="passenger" onclick="selectRole('passenger')">
+                                <i class="fa-solid fa-user"></i> Passenger
+                            </div>
+                        </div>
+                        <div class="error-msg" id="signupRoleError">Please select a role</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)" />
+                        </div>
+                        <div class="error-msg" id="signupPasswordError">Password must be at least 6 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <input type="password" id="signupConfirm" placeholder="Confirm your password" />
+                        </div>
+                        <div class="error-msg" id="signupConfirmError">Passwords do not match</div>
+                    </div>
+
+                    <div class="btn">
+                        <button class="submit-btn" onclick="handleSignup()">
+                            Create Account <i class="fa-solid fa-user-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="error-msg" id="signupError" style="text-align:center;margin-top:8px;display:none;color:#f59e0b;">
+                        Username already exists.
+                    </div>
+
+                    <div class="links">
+                        <p>Already have an Account? <button class="tab-btn" data-tab="login">Login</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RIDER HOME ===== -->
+        <div class="home-page" id="riderHome">
+            <div class="rider-app-layout">
+
+                <!-- Vertical Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fa-solid fa-motorcycle"></i>
+                        RideApp
+                    </div>
+
+                    <button class="nav-item active" data-section="dailyLogs" onclick="switchSection('dailyLogs')">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    
+                        <span>Daily Logs</span>
+                        
+                    </button>
+
+                    <button class="nav-item" data-section="ride" onclick="switchSection('ride')">
+                        <i class="fa-solid fa-taxi"></i>
+                        <span>Ride</span>
+                        <span class="badge">3</span>
+                    </button>
+
+                    <button class="nav-item" data-section="courier" onclick="switchSection('courier')">
+                        <i class="fa-solid fa-box"></i>
+                        <span>Courier</span>
+                        <span class="badge">2</span>
+                    </button>
+
+                    <button class="nav-item" data-section="jobs" onclick="switchSection('jobs')">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span>Jobs</span>
+                        <span class="badge">5</span>
+                    </button>
+
+                    <button class="nav-item" data-section="motors" onclick="switchSection('motors')">
+                        <i class="fa-solid fa-motorcycle"></i>
+                        <span>Motors</span>
+                    </button>
+
+                    <div class="sidebar-footer">
+                        <button class="nav-item" onclick="handleLogout()">
+                            <i class="fa-solid fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+
+                    <!-- Header -->
+                    <div class="home-header">
+                        <div class="user-info">
+                            <div class="greeting">🏍️ Welcome Rider!</div>
+                            <span class="role-badge">Rider</span>
+                        </div>
+                        <div class="user-logout">
+                            <div class="username-display" id="riderUsername">@username</div>
+                            <button class="logout-btn" onclick="handleLogout()">
+                                <i class="fa-solid fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+
+                   
+
+                    <!-- ===== DAILY LOGS SECTION ===== -->
+                    <section class="section active" id="dailyLogs">
+                        <div class="section-title">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            Daily Activity Logs
+                        </div>
+
+                       <div class="app-container">
+  
+  <!-- header -->
+  <div class="header">
+    <h1><i class="fas fa-motorcycle" style="color: #1e8f4c;"></i> </h1>
+    <div class="badge"><i class="fas fa-sync-alt"></i> Live • GH₵</div>
+  </div>
+
+  <!-- Profit Dashboard (real-time) -->
+  <div class="card profit-dashboard">
+    <div class="flex-between">
+      <div>
+        <div class="small-stat sub" style="color: #1a2c3e;"><i class="fas fa-chart-line"></i> Today’s performance</div>
+        <div class="stat-number" id="todayProfitDisplay">GH₵ 0</div>
+      </div>
+      <div style="text-align: right">
+        <div class="small-stat sub">Daily target (savings)</div>
+        <div class="stat-number" style="font-size:1.6rem" id="targetDisplay">GH₵ 400</div>
+      </div>
+    </div>
+    <div class="target-progress">
+      <div class="flex-between small-stat">
+        <span>Progress to daily savings goal</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="flex-between" style="margin-top: 10px;">
+      <span class="small-stat"><i class="fas fa-wallet"></i> Total Savings Pot</span>
+      <span class="stat-number" style="font-size:1.8rem;" id="totalSavingsSpan">GH₵ 0</span>
+    </div>
+  </div>
+
+  <!-- Daily Revenue Tracker Form -->
+  <div class="card">
+    <h3 style="margin-bottom: 16px;"><i class="fas fa-edit"></i> Log today’s ride</h3>
+    <div class="input-group">
+      <label>💰 Total earnings (GH₵)</label>
+      <div class="input-with-icon"><i class="fas fa-ghana-cedi-sign"></i><input type="number" id="earningsInput" placeholder="e.g., 250" value=""></div>
+    </div>
+    <div class="input-group">
+      <label>⛽ Fuel cost (GH₵)</label>
+      <div class="input-with-icon"><i class="fas fa-gas-pump"></i><input type="number" id="fuelInput" placeholder="e.g., 60" value=""></div>
+    </div>
+    <div class="input-group">
+      <label>🔧 Maintenance cost (GH₵)</label>
+      <div class="input-with-icon"><i class="fas fa-wrench"></i><input type="number" id="maintenanceInput" placeholder="e.g., 20" value=""></div>
+    </div>
+    <button id="logEntryBtn"><i class="fas fa-save"></i> Save record & auto-save</button>
+    <button id="resetDayBtn" class="secondary-btn"><i class="fas fa-undo-alt"></i> Reset today's log (start fresh)</button>
+  </div>
+
+  <!-- Expense Reminders + Savings Goal Setter -->
+  <div class="card">
+    <div class="flex-between">
+      <h3><i class="fas fa-bell"></i> Smart reminders</h3>
+      <i class="fas fa-sliders-h" style="color:#78909c;"></i>
+    </div>
+    <div id="remindersContainer">
+      <!-- dynamic reminders injected -->
+      <div class="reminder-item"><div><div class="reminder-text">🔔 Insurance renewal</div><div class="reminder-date">Due in 3 days</div></div><i class="fas fa-clock" style="color:#f5b042;"></i></div>
+      <div class="reminder-item"><div><div class="reminder-text">🛵 Loan repayment</div><div class="reminder-date">Due in 5 days</div></div><i class="fas fa-exclamation-triangle"></i></div>
+      <div class="reminder-item"><div><div class="reminder-text">⚙️ Servicing due</div><div class="reminder-date">12 days left</div></div><i class="fas fa-tools"></i></div>
+    </div>
+    <hr>
+    <div class="flex-between">
+      <label style="font-weight: 600;">🎯 Set daily savings target (GH₵)</label>
+      <input type="number" id="dailyTargetInput" value="400" style="width: 110px; border:1px solid #dfe6ed; border-radius: 40px; padding: 8px 12px; text-align:center;">
+      <button id="updateTargetBtn" style="width: auto; padding: 8px 16px; background:#2c7a4a;">Set</button>
+    </div>
+  </div>
+
+  <!-- Recent history & savings updates -->
+  <div class="card">
+    <div class="flex-between">
+      <h3><i class="fas fa-history"></i> Recent logs</h3>
+      <span class="badge"><i class="fas fa-chart-simple"></i> Daily profit</span>
+    </div>
+    <div id="historyList" class="history-list">
+      <div style="text-align: center; color:#8a9aa8;">No entries yet. Add your first ride →</div>
+    </div>
+    <div class="savings-goal-row">
+      <div class="flex-between"><span><i class="fas fa-piggy-bank"></i> Auto-savings recommendation (20% of profit)</span><strong id="suggestionSpan">GH₵ 0</strong></div>
+      <div class="flex-between" style="margin-top: 10px;"><span>✅ Tracked today's savings added to pot</span><button id="forceSaveReminderBtn" style="width:auto;padding:6px 14px; background:#1e8f4c; margin:0;">Add suggested</button></div>
+    </div>
+  </div>
+</div>
+
+                        
+                    </section>
+
+                    <!-- ===== RIDE SECTION ===== -->
+                    <section class="section" id="ride">
+                        <div class="section-title">
+                            <i class="fa-solid fa-taxi"></i>
+                            Ride Services
+                            <span style="font-size:0.8rem;color:#94a3b8;font-weight:400;">3 active requests</span>
+                        </div>
+
+                        <div class="cards-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">Airport Transfer</span>
+                                    <div class="card-icon blue"><i class="fa-solid fa-plane"></i></div>
+                                </div>
+                                <div class="card-desc">
+                                    <strong>Sarah Johnson</strong> ⭐ 4.9<br />
+                                    Pickup: 123 Main St → Airport Terminal 3<br />
+                                    Distance: 4.2 km • Est. Fare: GH₵ 45.00
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-clock"></i> 2 min ago</span>
+                                    <button class="card-btn" onclick="showToast('✅ Ride accepted!')">Accept Ride</button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">City Center Ride</span>
+                                    <div class="card-icon green"><i class="fa-solid fa-city"></i></div>
+                                </div>
+                                <div class="card-desc">
+                                    <strong>Michael Brown</strong> ⭐ 4.7<br />
+                                    Pickup: City Mall → Downtown Station<br />
+                                    Distance: 3.8 km • Est. Fare: GH₵ 35.00
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-clock"></i> 5 min ago</span>
+                                    <button class="card-btn" onclick="showToast('✅ Ride accepted!')">Accept Ride</button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">Late Night Ride</span>
+                                    <div class="card-icon purple"><i class="fa-solid fa-moon"></i></div>
+                                </div>
+                                <div class="card-desc">
+                                    <strong>Emily Davis</strong> ⭐ 4.8<br />
+                                    Pickup: Nightclub → Residential Area<br />
+                                    Distance: 6.5 km • Est. Fare: GH₵ 55.00
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-clock"></i> 8 min ago</span>
+                                    <button class="card-btn" onclick="showToast('✅ Ride accepted!')">Accept Ride</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ===== COURIER SECTION ===== -->
+                    <section class="section" id="courier">
+                        <div class="section-title">
+                            <i class="fa-solid fa-box"></i>
+                            Courier Services
+                            <span style="font-size:0.8rem;color:#94a3b8;font-weight:400;">2 active deliveries</span>
+                        </div>
+
+                        <div class="cards-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">Package Delivery</span>
+                                    <div class="card-icon orange"><i class="fa-solid fa-package"></i></div>
+                                </div>
+                                <div class="card-desc">
+                                    <strong>TechHub Store</strong><br />
+                                    Pickup: Electronics Shop → Customer Address<br />
+                                    Weight: 2.5 kg • Est. Fee: GH₵ 30.00
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-clock"></i> 10 min ago</span>
+                                    <button class="card-btn" onclick="showToast('📦 Courier accepted!')">Accept</button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">Document Delivery</span>
+                                    <div class="card-icon red"><i class="fa-regular fa-file"></i></div>
+                                </div>
+                                <div class="card-desc">
+                                    <strong>Legal Office</strong><br />
+                                    Pickup: Law Firm → Court House<br />
+                                    Weight: 0.5 kg • Est. Fee: GH₵ 25.00
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-clock"></i> 15 min ago</span>
+                                    <button class="card-btn" onclick="showToast('📦 Courier accepted!')">Accept</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ===== JOBS SECTION ===== -->
+                    <section class="section" id="jobs">
+                        <div class="section-title">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Available Jobs for Riders
+                            <span style="font-size:0.8rem;color:#94a3b8;font-weight:400;">5 positions open</span>
+                        </div>
+
+                        <div class="job-item">
+                            <div class="job-info">
+                                <span class="job-title">Full-Time Delivery Rider</span>
+                                <span class="job-desc">FastTrack Logistics • Deliver packages across the city</span>
+                                <div class="job-meta">
+                                    <span><i class="fa-regular fa-building"></i> Accra</span>
+                                    <span><i class="fa-regular fa-clock"></i> Full-time</span>
+                                    <span><i class="fa-solid fa-money-bill"></i> GH₵ 2,500/mo</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="card-btn" onclick="showToast('✅ Application submitted!')">Apply</button>
+                                <button class="card-btn outline" onclick="showToast('📋 Job saved')">Save</button>
+                            </div>
+                        </div>
+
+                        <div class="job-item">
+                            <div class="job-info">
+                                <span class="job-title">Part-Time Ride Driver</span>
+                                <span class="job-desc">CityRide • Flexible hours, earn extra income</span>
+                                <div class="job-meta">
+                                    <span><i class="fa-regular fa-building"></i> Kumasi</span>
+                                    <span><i class="fa-regular fa-clock"></i> Part-time</span>
+                                    <span><i class="fa-solid fa-money-bill"></i> GH₵ 1,200/mo</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="card-btn" onclick="showToast('✅ Application submitted!')">Apply</button>
+                                <button class="card-btn outline" onclick="showToast('📋 Job saved')">Save</button>
+                            </div>
+                        </div>
+
+                        <div class="job-item">
+                            <div class="job-info">
+                                <span class="job-title">Boda Boda Rider</span>
+                                <span class="job-desc">QuickMove • Motorbike taxi services in the city</span>
+                                <div class="job-meta">
+                                    <span><i class="fa-regular fa-building"></i> Tema</span>
+                                    <span><i class="fa-regular fa-clock"></i> Full-time</span>
+                                    <span><i class="fa-solid fa-money-bill"></i> GH₵ 3,000/mo</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="card-btn" onclick="showToast('✅ Application submitted!')">Apply</button>
+                                <button class="card-btn outline" onclick="showToast('📋 Job saved')">Save</button>
+                            </div>
+                        </div>
+
+                        <div class="job-item">
+                            <div class="job-info">
+                                <span class="job-title">Food Delivery Rider</span>
+                                <span class="job-desc">FoodExpress • Deliver meals from restaurants</span>
+                                <div class="job-meta">
+                                    <span><i class="fa-regular fa-building"></i> Accra</span>
+                                    <span><i class="fa-regular fa-clock"></i> Part-time</span>
+                                    <span><i class="fa-solid fa-money-bill"></i> GH₵ 1,800/mo</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="card-btn" onclick="showToast('✅ Application submitted!')">Apply</button>
+                                <button class="card-btn outline" onclick="showToast('📋 Job saved')">Save</button>
+                            </div>
+                        </div>
+
+                        <div class="job-item">
+                            <div class="job-info">
+                                <span class="job-title">Premium Ride Driver</span>
+                                <span class="job-desc">LuxRide • Drive executive clients in premium vehicles</span>
+                                <div class="job-meta">
+                                    <span><i class="fa-regular fa-building"></i> Accra</span>
+                                    <span><i class="fa-regular fa-clock"></i> Full-time</span>
+                                    <span><i class="fa-solid fa-money-bill"></i> GH₵ 4,000/mo</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="card-btn" onclick="showToast('✅ Application submitted!')">Apply</button>
+                                <button class="card-btn outline" onclick="showToast('📋 Job saved')">Save</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ===== MOTORS SECTION ===== -->
+                    <section class="section" id="motors">
+                        <div class="section-title">
+                            <i class="fa-solid fa-motorcycle"></i>
+                            Motors for Rent or Sale
+                            <span style="font-size:0.8rem;color:#94a3b8;font-weight:400;">6 available</span>
+                        </div>
+
+                        <div class="motor-grid">
+                            <!-- Motor 1 -->
+                            <div class="motor-card">
+                                <div class="motor-image">
+                                    <img src="Honda_CB-Black.png" alt="Honda CB150R" />
+                                </div>
+                                <div class="motor-content">
+                                    <div class="motor-header">
+                                        <div>
+                                            <div class="motor-name">Honda CB150R</div>
+                                            <span class="motor-badge rent">For Rent</span>
+                                        </div>
+                                        <div class="motor-price">GH₵ 350/mo</div>
+                                    </div>
+                                    <div class="motor-details"><i class="fa-solid fa-calendar"></i> 2023 • 15,000 km</div>
+                                    <div class="motor-details"><i class="fa-solid fa-gas-pump"></i> 150cc • Excellent condition</div>
+                                    <div class="motor-meta">
+                                        <span><i class="fa-regular fa-location-dot"></i> Accra</span>
+                                        <span><i class="fa-regular fa-circle-check"></i> Available now</span>
+                                    </div>
+                                    <div class="motor-actions">
+                                        <button class="card-btn" onclick="showToast('🏍️ Rental inquiry sent!')">Rent Now</button>
+                                        <button class="card-btn outline" onclick="showToast('💰 Price: GH₵ 8,500')">Buy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Motor 2 -->
+                            <div class="motor-card">
+                                <div class="motor-image">
+                                    <img src="yamaha.jpg" alt="Yamaha MT-15" />
+                                </div>
+                                <div class="motor-content">
+                                    <div class="motor-header">
+                                        <div>
+                                            <div class="motor-name">Yamaha MT-15</div>
+                                            <span class="motor-badge rent">For Rent</span>
+                                        </div>
+                                        <div class="motor-price">GH₵ 450/mo</div>
+                                    </div>
+                                    <div class="motor-details"><i class="fa-solid fa-calendar"></i> 2024 • 5,000 km</div>
+                                    <div class="motor-details"><i class="fa-solid fa-gas-pump"></i> 155cc • Like new</div>
+                                    <div class="motor-meta">
+                                        <span><i class="fa-regular fa-location-dot"></i> Kumasi</span>
+                                        <span><i class="fa-regular fa-clock"></i> Available next week</span>
+                                    </div>
+                                    <div class="motor-actions">
+                                        <button class="card-btn" onclick="showToast('🏍️ Rental inquiry sent!')">Rent Now</button>
+                                        <button class="card-btn outline" onclick="showToast('💰 Price: GH₵ 12,000')">Buy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Motor 3 -->
+                            <div class="motor-card">
+                                <div class="motor-image">
+                                    <img src="tvs.jpg" alt="TVS Apache 160" />
+                                </div>
+                                <div class="motor-content">
+                                    <div class="motor-header">
+                                        <div>
+                                            <div class="motor-name">TVS Apache 160</div>
+                                            <span class="motor-badge sale">For Sale</span>
+                                        </div>
+                                        <div class="motor-price">GH₵ 6,500</div>
+                                    </div>
+                                    <div class="motor-details"><i class="fa-solid fa-calendar"></i> 2023 • 12,000 km</div>
+                                    <div class="motor-details"><i class="fa-solid fa-gas-pump"></i> 160cc • Well maintained</div>
+                                    <div class="motor-meta">
+                                        <span><i class="fa-regular fa-location-dot"></i> Tema</span>
+                                        <span><i class="fa-regular fa-circle-check"></i> Available now</span>
+                                    </div>
+                                    <div class="motor-actions">
+                                        <button class="card-btn" onclick="showToast('🏍️ Rental inquiry sent!')">Rent</button>
+                                        <button class="card-btn outline" onclick="showToast('💰 Price: GH₵ 6,500')">Buy Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Motor 4 -->
+                            <div class="motor-card">
+                                <div class="motor-image">
+                                    <img src="suzuki.jpg" alt="Suzuki Hayate" />
+                                </div>
+                                <div class="motor-content">
+                                    <div class="motor-header">
+                                        <div>
+                                            <div class="motor-name">Suzuki Hayate</div>
+                                            <span class="motor-badge rent">For Rent</span>
+                                        </div>
+                                        <div class="motor-price">GH₵ 200/mo</div>
+                                    </div>
+                                    <div class="motor-details"><i class="fa-solid fa-calendar"></i> 2022 • 20,000 km</div>
+                                    <div class="motor-details"><i class="fa-solid fa-gas-pump"></i> 110cc • Good condition</div>
+                                    <div class="motor-meta">
+                                        <span><i class="fa-regular fa-location-dot"></i> Accra</span>
+                                        <span><i class="fa-regular fa-circle-check"></i> Available now</span>
+                                    </div>
+                                    <div class="motor-actions">
+                                        <button class="card-btn" onclick="showToast('🏍️ Rental inquiry sent!')">Rent Now</button>
+                                        <button class="card-btn outline" onclick="showToast('💰 Price: GH₵ 4,500')">Buy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Motor 5 -->
+                            <div class="motor-card">
+                                <div class="motor-image">
+                                    <img src="ktm.jpg" alt="KTM Duke 200" />
+                                </div>
+                                <div class="motor-content">
+                                    <div class="motor-header">
+                                        <div>
+                                            <div class="motor-name">KTM Duke 200</div>
+                                            <span class="motor-badge sale">For Sale</span>
+                                        </div>
+                                        <div class="motor-price">GH₵ 15,000</div>
+                                    </div>
+                                    <div class="motor-details"><i class="fa-solid fa-calendar"></i> 2024 • 3,000 km</div>
+                                    <div class="motor-details"><i class="fa-solid fa-gas-pump"></i> 200cc • Premium condition</div>
+                                    <div class="motor-meta">
+                                        <span><i class="fa-regular fa-location-dot"></i> Accra</span>
+                                        <span><i class="fa-regular fa-clock"></i> Available in 3 days</span>
+                                    </div>
+                                    <div class="motor-actions">
+                                        <button class="card-btn" onclick="showToast('🏍️ Rental inquiry sent!')">Rent</button>
+                                        <button class="card-btn outline" onclick="showToast('💰 Price: GH₵ 15,000')">Buy Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Motor 6 -->
+                            <div class="motor-card">
+                                <div class="motor-image">
+                                    <img src="pul.jpg" alt="Bajaj Pulsar 150" />
+                                </div>
+                                <div class="motor-content">
+                                    <div class="motor-header">
+                                        <div>
+                                            <div class="motor-name">Bajaj Pulsar 150</div>
+                                            <span class="motor-badge rent">For Rent</span>
+                                        </div>
+                                        <div class="motor-price">GH₵ 300/mo</div>
+                                    </div>
+                                    <div class="motor-details"><i class="fa-solid fa-calendar"></i> 2023 • 8,000 km</div>
+                                    <div class="motor-details"><i class="fa-solid fa-gas-pump"></i> 150cc • Good condition</div>
+                                    <div class="motor-meta">
+                                        <span><i class="fa-regular fa-location-dot"></i> Kumasi</span>
+                                        <span><i class="fa-regular fa-circle-check"></i> Available now</span>
+                                    </div>
+                                    <div class="motor-actions">
+                                        <button class="card-btn" onclick="showToast('🏍️ Rental inquiry sent!')">Rent Now</button>
+                                        <button class="card-btn outline" onclick="showToast('💰 Price: GH₵ 7,200')">Buy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Welcome Message -->
+                    <div class="welcome-message">
+                        <i class="fa-regular fa-circle-check"></i> You're logged in as a Rider • Stay safe on the road!
+                    </div>
+
+                </main>
+
+            </div>
+        </div>
+
+        <!-- ===== PASSENGER HOME ===== -->
+        <div class="home-page" id="passengerHome">
+            <div class="home-header">
+                <div class="user-info">
+                    <div class="greeting">
+                        <i class="fa-solid fa-user"></i>
+                        Welcome Passenger!</div>
+                    <span class="role-badge passenger-badge">Passenger</span>
+                </div>
+                <div class="user-logout">
+                    <div class="username-display" id="passengerUsername">@username</div>
+                    <button class="logout-btn" onclick="handleLogout()">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <div class="passenger-actions">
+                <div class="action-card" onclick="showToast('🚗 Book a new ride')"><i class="fa-solid fa-taxi"></i> Book a Ride</div>
+                <div class="action-card" onclick="showToast('📋 View your ride history')"><i class="fa-solid fa-clock-rotate-left"></i> Ride History</div>
+                <div class="action-card" onclick="showToast('📍 Track your current ride')"><i class="fa-solid fa-location-dot"></i> Track Ride</div>
+                <div class="action-card" onclick="showToast('👤 View your profile')"><i class="fa-regular fa-user"></i> My Profile</div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="showToast('💳 View your payment methods')"><i class="fa-solid fa-credit-card"></i> Payments</button>
+                <button class="quick-btn" onclick="showToast('🆘 Get help and support')"><i class="fa-regular fa-circle-question"></i> Help</button>
+                <button class="quick-btn" onclick="showToast('❤️ View your saved places')"><i class="fa-regular fa-heart"></i> Favorites</button>
+                <button class="quick-btn" onclick="showToast('📅 Check your ride history')"><i class="fa-regular fa-calendar"></i> History</button>
+            </div>
+
+            <div class="welcome-message">
+                <i class="fa-regular fa-circle-check"></i> You're logged in as a Passenger
+            </div>
+        </div>
+
+    </div>
+
+    <script src="logic.js"></script>
+
+</body>
+</html>
